@@ -1,7 +1,7 @@
 #include "io/io.cpp"
 #include "vm/vm.cpp"
 
-
+using namespace io;
 
 int main(int argc,char *argv[])
 {
