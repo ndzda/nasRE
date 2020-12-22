@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "io/file.cpp"
+#include "io/math.cpp"
 
 
 void inline info(char *s)

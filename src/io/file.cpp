@@ -19,5 +19,5 @@ long readFile(char *path, char **s)
     if (fclose(file) == 0)
         return fileSize;
     else
-        return -1;
+        return -1L;
 }
