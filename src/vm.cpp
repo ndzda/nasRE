@@ -1,4 +1,4 @@
-#include "io/io.cpp"
+#include "io.cpp"
 
 class nasVM
 {
@@ -197,12 +197,12 @@ class nasVM
             break;
             //POW 求幂
             case 0x25:// R[a]=pow(R[b],R[c])
-                R(code[PC+1])=pow(R(code[PC+2]),R(code[PC+3]));
+                //R(code[PC+1])=pow((double)R(code[PC+2]),(int)R(code[PC+3]));
                 PC+=4;
             break;
             //UNM 求相反数(乘-1)
             case 0x26:// R[a]=R[b]*-1
-                R(code[PC+1])=R(code[PC+2])+R(code[PC+3]);
+                R(code[PC+1])=R(code[PC+2])*-1;
                 PC+=3;
             break;
             //is 0 是0
