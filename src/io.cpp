@@ -1,9 +1,10 @@
 #ifndef nasIo
 #define nasIo
 
-#include <stdio.h>
+#include <cstdio>
 #include "io/math.cpp"
 #include "io/file.cpp"
+#include "io/time.cpp"
 namespace io
 {
     void inline info(const char *s)
