@@ -6,7 +6,7 @@
             "command": "C:\\Program Files\\mingw64\\bin\\g++.exe",
             "args": [
                 "-g",
-                "${workspaceFolder}\\src\\main.cpp",
+                "${workspaceFolder}\\src\\nasre.cpp",
                 "-o",
                 "${workspaceFolder}\\test\\nas.exe"
             ],

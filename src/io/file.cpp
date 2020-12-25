@@ -3,14 +3,14 @@
 
 namespace io
 {
-    long readBFile(const char *path, char **s)
+    long readBFile(const char *path, unsigned char **s)
     {
         FILE *file = fopen(path, "r");
 
         fseek(file, 0, SEEK_END);
 
         long fileSize = ftell(file);
-        *s = (char *)malloc(fileSize + 1);
+        *s = (unsigned char *)malloc(fileSize + 1);
 
         rewind(file);
 
