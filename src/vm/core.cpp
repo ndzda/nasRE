@@ -12,64 +12,19 @@ namespace vm
         long long PC = 0;
         unsigned char *code, *heap, *stack;
         long long stackP = 0, stackSize = 0;
-        long long * reg[256]={
+        long long * const reg[256]={
             &RZero,// 0x00 Zero register (0)零寄存器
             &PC,// 0x01 Operating position register (PC)运行位置寄存器
-            &stackP,
+            &stackP,0,0,
+            &R0,&R1,&R2,&R3,&R4,&R5,&R6,&R7,// 0x10-0x17
+            &L0,&L1,&L2,&L3,&L4,&L5,&L6,&L7,// 0x18-0x1f
+
         };
 
         // Get virtual register by number 通过编号获取虚拟寄存器
-        long long inline &R(unsigned char r)
-        {
-            switch (r)
-            {
-            case 0x00: // 
-                return RZero;
-            case 0x01: // 
-                return PC;
-            case 0x02:
-                return stackP; // Top of Stack Pointer Register 栈顶指针寄存器
-
-            // 16 main registers 16个主寄存器
-            case 0x10:
-                return R0;
-            case 0x11:
-                return R1;
-            case 0x12:
-                return R2;
-            case 0x13:
-                return R3;
-            case 0x14:
-                return R4;
-            case 0x15:
-                return R5;
-            case 0x16:
-                return R6;
-            case 0x17:
-                return R7;
-            case 0x20:
-                return L0;
-            case 0x21:
-                return L1;
-            case 0x22:
-                return L2;
-            case 0x23:
-                return L3;
-            case 0x24:
-                return L4;
-            case 0x25:
-                return L5;
-            case 0x26:
-                return L6;
-            case 0x27:
-                return L7;
-            }
-            return RZero;
-        }
-        double inline &getDoubleR(unsigned char r)
-        {
-            return *((double *)(&R(r)));
-        }
+        #define R(i) (*(reg[i]))
+        // Get virtual register by number 通过编号获取虚拟寄存器
+        #define getDoubleR(i) (*((double*)(R(i))))
 
         char loop()
         {
