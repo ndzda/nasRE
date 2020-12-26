@@ -12,19 +12,26 @@ namespace vm
         long long PC = 0;
         unsigned char *code, *heap, *stack;
         long long stackP = 0, stackSize = 0;
-        long long * const reg[256]={
-            &RZero,// 0x00 Zero register (0)零寄存器
-            &PC,// 0x01 Operating position register (PC)运行位置寄存器
-            &stackP,0,0,
-            &R0,&R1,&R2,&R3,&R4,&R5,&R6,&R7,// 0x10-0x17
-            &L0,&L1,&L2,&L3,&L4,&L5,&L6,&L7,// 0x18-0x1f
-
+        long long *const reg[128] = {
+            &RZero,                                         // 0x00 Zero register (0)零寄存器
+            &PC,                                            // 0x01 Operating position register (PC)运行位置寄存器
+            &stackP,                                        // 0x02 Stack pointer register 栈指针寄存器
+            0, 0, 0, 0, 0,                                  // 0x03-0x07
+            0, 0, 0, 0, 0, 0, 0, 0,                         // 0x08-0x0f
+            &R0, &R1, &R2, &R3, &R4, &R5, &R6, &R7,         // 0x10-0x17
+            &L0, &L1, &L2, &L3, &L4, &L5, &L6, &L7,         // 0x18-0x1f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0x2x
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0x3x
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0x4x
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0x5x
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0x6x
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 // 0x7x
         };
 
-        // Get virtual register by number 通过编号获取虚拟寄存器
-        #define R(i) (*(reg[i]))
-        // Get virtual register by number 通过编号获取虚拟寄存器
-        #define getDoubleR(i) (*((double*)(R(i))))
+// Get virtual register by number 通过编号获取虚拟寄存器
+#define R(i) (*(reg[i]))
+// Get double-precision virtual register by number 通过编号获取双精度浮点数虚拟寄存器
+#define getDoubleR(i) (*((double *)(reg(i))))
 
         char loop()
         {

@@ -5,8 +5,6 @@ using namespace io;
 
 int main(int argc,char *argv[])
 {
-    info("hi");
-
     if(argc<=1)
     {
         error("Please pass in the binary file name as the startup parameter.");
