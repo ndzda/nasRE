@@ -154,7 +154,7 @@ namespace vm
                     PC += 3;
                     break;
                 // Stack copy to registers 栈复制到寄存器
-                // R[a]=stack[R[b]]
+                // R[a]=stack[stackP+R[b]]
                 case 0x18: // 1byte char
                     R(code[PC + 1]) = *((char *)(stack + stackP + R(code[PC + 2])));
                     PC += 3;
@@ -172,7 +172,7 @@ namespace vm
                     PC += 3;
                     break;
                 // Copy register to stack 寄存器复制到栈
-                // stack[R[b]]=R[a]
+                // stack[stackP+R[b]]=R[a]
                 case 0x1c: // 1byte char
                     *((char *)(stack + stackP + R(code[PC + 2]))) = (char)R(code[PC + 1]);
                     PC += 3;
@@ -189,7 +189,27 @@ namespace vm
                     *((long long *)(stack + stackP + R(code[PC + 2]))) = (long long)R(code[PC + 1]);
                     PC += 3;
                     break;
+
                 // 0x2x
+                // Code (constant) copied to register 代码(常量)复制到寄存器
+                // R[a]=code[PC+R[b]]
+                case 0x20: // 1byte char
+                    R(code[PC + 1]) = *((char *)(code + PC + R(code[PC + 2])));
+                    PC += 3;
+                    break;
+                case 0x21: // 2byte short
+                    R(code[PC + 1]) = *((short *)(code + PC + R(code[PC + 2])));
+                    PC += 3;
+                    break;
+                case 0x22: // 4byte int
+                    R(code[PC + 1]) = *((int *)(code + PC + R(code[PC + 2])));
+                    PC += 3;
+                    break;
+                case 0x23: // 8byte long (long long)
+                    R(code[PC + 1]) = *((long long *)(code + PC + R(code[PC + 2])));
+                    PC += 3;
+                    break;
+
                 // 0x3x
                 // ADD 加
                 case 0x30: // R[a]=R[b]+R[c]
@@ -234,6 +254,7 @@ namespace vm
                 // not 0 不是0
                 case 0x3b: // R[a]=(R[b]!=0)
                     break;
+
                 // 0xEx
                 // Apply for binary code area memory 申请字节码区内存
                 // The parameters are the starting position and length in the slave heap memory, and the return value is the binary code memory number
@@ -243,7 +264,15 @@ namespace vm
                 // Create a new thread 新建一个线程
                 case 0xe3: // thread_start(R[a])
                     break;
+
                 // 0xFx
+                // Pass value to debugger 向调试器传值
+                case 0xfd: // send_to_debugger(R[a],b)
+                    break;
+                // Report an error 报错
+                case 0xfe: // report_error(R[a],b);
+                    io::error("An unhandled runtime error occurred.");
+                    break;
                 // Exit the virtual machine (exit the thread) 退出虚拟机(退出线程)
                 case 0xff: // exit(a)
                     flag = code[PC + 1];
