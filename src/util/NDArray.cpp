@@ -17,28 +17,28 @@ namespace nda
     template <class T>
     class DArray
     {
-        unsigned long size;
+        unsigned long siz;
         T *a;
 
-        Darray()
+        DArray()
         {
-            this.size = 2;
-            this.a = malloc(sizeof(T) << 1);
+            this.siz = 2;
+            this.a = (T*)malloc(sizeof(T) << 1);
         }
 
-        unsigned inline long size() { return this.size; }
+        unsigned inline long size() { return this.siz; }
 
         void inline clear() { free(this.a); }
 
         void inline expansion(unsigned long i)
         {
-            unsigned long nSize = nda::max(2 << ((unsigned long)log2(this.size)), i);
+            unsigned long nSize = nda::max(2 << ((unsigned long)log2(this.siz)), i);
             this.a = realloc(this.a, nSize * sizeof(T));
         }
 
         T &operator[](unsigned long i)
         {
-            if (i >= this.size)
+            if (i >= this.siz)
                 expansion(i);
             else if (i < 0)
                 throw "Invalid array position.";
