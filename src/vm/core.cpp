@@ -10,9 +10,11 @@ namespace vm
         long long R0 = 0, R1 = 0, R2 = 0, R3 = 0, R4 = 0, R5 = 0, R6 = 0, R7 = 0;
         long long L0 = 0, L1 = 0, L2 = 0, L3 = 0, L4 = 0, L5 = 0, L6 = 0, L7 = 0;
         long long PC = 0;
-        unsigned char *code, *heap, *stack;
-        long long stackP = 0, stackSize = 0;
-        long long *const reg[256] = {
+        const unsigned char *code;           // Code (constant) area memory 代码(常量)区内存
+        unsigned char *heap, *stack;         // Heap memory and stack memory 堆内存和栈内存
+        long long stackP = 0, stackSize = 0; // Stack location pointer and stack size 栈位置指针和栈大小
+        long long *reg[256] = {
+            // Register correspondence table 寄存器对应表
             &RZero,                                         // 0x00 Zero register (0)零寄存器
             &PC,                                            // 0x01 Operating position register (PC)运行位置寄存器
             &stackP,                                        // 0x02 Stack pointer register 栈指针寄存器
@@ -39,7 +41,7 @@ namespace vm
 // Get virtual register by number 通过编号获取虚拟寄存器
 #define R(i) (*(reg[i]))
 // Get double-precision virtual register by number 通过编号获取双精度浮点数虚拟寄存器
-#define getDoubleR(i) (*((double *)(reg(i))))
+#define getDoubleR(i) (*((double *)(reg[i])))
 
         char loop()
         {
